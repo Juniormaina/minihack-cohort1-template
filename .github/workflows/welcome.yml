@@ -12,61 +12,56 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { owner, repo } = context.repo;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
             const pr = context.payload.pull_request;
             const sender = pr.user.login;
+            const prNumber = pr.number;
 
-            // Check if this is the contributor's first PR in this repo
-            const prs = await github.rest.pulls.list({
-              owner,
-              repo,
+            const allPRs = await github.rest.pulls.list({
+              owner: owner,
+              repo: repo,
               state: 'all',
               per_page: 100
             });
 
-            const userPRs = prs.data.filter(p => p.user.login === sender);
+            const userPRs = allPRs.data.filter(function(p) {
+              return p.user.login === sender;
+            });
+
+            var body;
 
             if (userPRs.length === 1) {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: pr.number,
-                body: `Hey @${sender}, your PR is in.
-
-Before the reviewer picks this up, run through the checklist:
-
-- Branch name follows \`week-{N}-{your-github-handle}\`
-- PR title follows \`[Cohort X Week N] Your Name - Deliverable title\`
-- Every section of the PR template is filled in
-- \`.env.example\` is included, no real keys committed
-- PR link posted in \`#submissions\` on Discord
-- All weekly quests submitted on Plug and Play
-
-If anything above is missing, update the PR before the Sunday midnight EAT deadline.
-
-Resources while you wait for review:
-- Developer handbook: [team1-kenya-mini-hack.vercel.app](https://team1-kenya-mini-hack.vercel.app)
-- Fuji explorer: [testnet.snowtrace.io](https://testnet.snowtrace.io)
-- Builders Hub: [core.app/builders-hub](https://core.app/builders-hub)
-- Help: \`#help\` channel on Discord
-
-Good work shipping.`
-              });
+              body = "Hey @" + sender + ", your PR is in.\n\n"
+                + "Before the reviewer picks this up, run through the checklist:\n\n"
+                + "- Branch name follows `week-{N}-{your-github-handle}`\n"
+                + "- PR title follows `[Cohort X Week N] Your Name - Deliverable title`\n"
+                + "- Every section of the PR template is filled in\n"
+                + "- `.env.example` is included, no real keys committed\n"
+                + "- PR link posted in `#submissions` on Discord\n"
+                + "- All weekly quests submitted on Plug and Play\n\n"
+                + "If anything above is missing, update the PR before the Sunday midnight EAT deadline.\n\n"
+                + "Resources while you wait for review:\n"
+                + "- Developer handbook: [team1-kenya-mini-hack.vercel.app](https://team1-kenya-mini-hack.vercel.app)\n"
+                + "- Fuji explorer: [testnet.snowtrace.io](https://testnet.snowtrace.io)\n"
+                + "- Builders Hub: [core.app/builders-hub](https://core.app/builders-hub)\n"
+                + "- Help: `#help` channel on Discord\n\n"
+                + "Good work shipping.";
             } else {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: pr.number,
-                body: `PR received, @${sender}.
-
-Checklist before review:
-- [ ] Branch: \`week-{N}-{your-github-handle}\`
-- [ ] Title: \`[Cohort X Week N] Your Name - Deliverable title\`
-- [ ] PR template fully filled in
-- [ ] \`.env.example\` included, no real keys committed
-- [ ] PR link in \`#submissions\` on Discord
-- [ ] Quests submitted on Plug and Play
-
-Deadline: Sunday midnight EAT.`
-              });
+              body = "PR received, @" + sender + ".\n\n"
+                + "Checklist before review:\n"
+                + "- [ ] Branch: `week-{N}-{your-github-handle}`\n"
+                + "- [ ] Title: `[Cohort X Week N] Your Name - Deliverable title`\n"
+                + "- [ ] PR template fully filled in\n"
+                + "- [ ] `.env.example` included, no real keys committed\n"
+                + "- [ ] PR link in `#submissions` on Discord\n"
+                + "- [ ] Quests submitted on Plug and Play\n\n"
+                + "Deadline: Sunday midnight EAT.";
             }
+
+            await github.rest.issues.createComment({
+              owner: owner,
+              repo: repo,
+              issue_number: prNumber,
+              body: body
+            });
