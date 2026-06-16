@@ -1,30 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-// This file is a placeholder. Replace it with your own contract.
-//
-// Week 1: No contract required — you are sending a basic transaction.
-//
-// Week 2: Write an ERC-20 token here. Start from scratch or extend OpenZeppelin:
-//   import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-//
-// Week 3: Your payment contract lives here. Record M-Pesa transaction references
-//         on-chain if you are bridging to the blockchain.
-//
-// Week 4: Your final payment contract — accepts USDC, records receipts,
-//         handles both M-Pesa and on-chain flows.
-//
-// Compile check: npx hardhat compile
-// Test: npx hardhat test
-// Deploy to Fuji: npx hardhat run scripts/deploy.js --network fuji
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract YourContract {
+contract YourContract is ERC20 {
     address public owner;
 
     event Deployed(address indexed owner, uint256 timestamp);
 
-    constructor() {
+    constructor() ERC20("YourToken", "YTK") {
         owner = msg.sender;
+        _mint(msg.sender, 1_000_000 * 10 ** decimals());
         emit Deployed(msg.sender, block.timestamp);
+    }
+
+    function mint(address to, uint256 amount) external {
+        require(msg.sender == owner, "Only owner can mint");
+        _mint(to, amount);
     }
 }

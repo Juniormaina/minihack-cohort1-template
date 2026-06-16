@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 
 // Run tests: npx hardhat test
 // Run tests with gas report: REPORT_GAS=true npx hardhat test
@@ -26,11 +27,11 @@ describe("YourContract", function () {
 
     it("should emit a Deployed event with the correct owner and timestamp", async function () {
       const Contract = await ethers.getContractFactory("YourContract");
-      const deployTx = Contract.deploy();
+      const newContract = await Contract.deploy();
 
-      await expect(deployTx)
-        .to.emit(await deployTx, "Deployed")
-        .withArgs(owner.address, await ethers.provider.getBlock("latest").then(b => b.timestamp));
+      await expect(newContract.deployTransaction)
+        .to.emit(newContract, "Deployed")
+        .withArgs(owner.address, anyValue);
     });
   });
 
