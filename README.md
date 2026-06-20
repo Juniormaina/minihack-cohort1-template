@@ -75,6 +75,26 @@ cp .env.example .env
 
 Open `.env` and fill in your values. Never commit this file — it is already in `.gitignore`. If you accidentally commit a private key, rotate it immediately.
 
+Your `.env` should include:
+
+```
+PRIVATE_KEY=your_wallet_private_key_here
+SNOWTRACE_API_KEY=your_snowtrace_api_key_here
+RPC_URL=https://api.avax-test.network/ext/bc/C/rpc
+PAYMENT_TOKEN=0xYourTokenAddressOnFuji
+
+DARAJA_CONSUMER_KEY=your_daraja_consumer_key_here
+DARAJA_CONSUMER_SECRET=your_daraja_consumer_secret_here
+DARAJA_SHORTCODE=174379
+DARAJA_PASSKEY=your_lipa_na_mpesa_passkey_here
+DARAJA_CALLBACK_URL=https://your-ngrok-url/api/mpesa/callback
+
+PORT=3000
+FRONTEND_URL=http://localhost:5173
+```
+
+`PAYMENT_TOKEN` should be the token contract address you want the bridge to accept. For a mock USDC-style token, deploy a token contract first and set its address here.
+
 ### 5. Verify your setup
 
 ```bash
@@ -83,9 +103,64 @@ npx hardhat compile
 
 No errors means your environment is working. If you see missing module errors, run `npm install` first.
 
-### 6. Get Fuji testnet AVAX
+### 6. Deploy the contracts
+
+1. Deploy a mock USDC-style token (optional, but useful for testing):
+
+```bash
+npx hardhat run scripts/deploy-mock-token.js --network fuji
+```
+
+2. Copy the deployed token address and set it in `.env` as `PAYMENT_TOKEN`.
+
+3. Deploy the payment bridge contract:
+
+```bash
+npx hardhat run scripts/deploy.js --network fuji
+```
+
+4. After deployment, copy the PaymentBridge contract address and add it to `frontend/.env`:
+
+```bash
+VITE_PAYMENT_BRIDGE_ADDRESS=0xYourDeployedBridgeAddress
+VITE_PAYMENT_TOKEN_ADDRESS=0xYourTokenAddressOnFuji
+VITE_API_URL=http://localhost:3000
+```
+
+5. Verify the bridge contract on Snowtrace:
+
+```bash
+npx hardhat verify --network fuji <BridgeAddress> <PaymentTokenAddress>
+```
+
+### 7. Get Fuji testnet AVAX
 
 Visit [core.app/tools/testnet-faucet](https://core.app/tools/testnet-faucet) and request AVAX to your Core Wallet Fuji address. You need AVAX to deploy contracts and send transactions on Fuji.
+
+### 7. Start the frontend and backend
+
+Install frontend dependencies and start the UI:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+From the repo root, start the backend:
+
+```bash
+npm install
+node server.js
+```
+
+The frontend reads the bridge contract address from Vite env values. Create `frontend/.env` with:
+
+```
+VITE_PAYMENT_BRIDGE_ADDRESS=0xYourDeployedBridgeAddress
+VITE_PAYMENT_TOKEN_ADDRESS=0xYourTokenAddressOnFuji
+VITE_API_URL=http://localhost:3000
+```
 
 ---
 

@@ -2,24 +2,28 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 
-// Run tests: npx hardhat test
-// Run tests with gas report: REPORT_GAS=true npx hardhat test
-
-describe("YourContract", function () {
-  let contract;
+describe("PaymentBridge", function () {
+  let bridge;
+  let token;
   let owner;
   let addr1;
   let addr2;
 
-  // Deploy a fresh instance before each test
+  const initialSupply = ethers.parseUnits("1000000", 6);
+
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
 
-    const Contract = await ethers.getContractFactory("YourContract");
-    contract = await Contract.deploy();
-    await contract.waitForDeployment();
+    const Token = await ethers.getContractFactory("MockERC20");
+    token = await Token.deploy("Test USDC", "tUSDC", initialSupply);
+    await token.waitForDeployment();
+
+    const Bridge = await ethers.getContractFactory("PaymentBridge");
+    bridge = await Bridge.deploy(await token.getAddress());
+    await bridge.waitForDeployment();
   });
 
+<<<<<<< HEAD
   describe("Deployment", function () {
     it("should set the deployer as the owner", async function () {
       expect(await contract.owner()).to.equal(owner.address);
@@ -33,29 +37,51 @@ describe("YourContract", function () {
         .to.emit(newContract, "Deployed")
         .withArgs(owner.address, anyValue);
     });
+=======
+  it("should set deployer as owner and store payment token", async function () {
+    expect(await bridge.owner()).to.equal(owner.address);
+    expect(await bridge.paymentToken()).to.equal(await token.getAddress());
+>>>>>>> 6946d67 (Updates from Junior)
   });
 
-  // Add your own tests below.
-  //
-  // For an ERC-20 token (Week 2), your tests should cover:
-  //   - Initial supply is minted to the correct address
-  //   - Transfer moves the correct amount between accounts
-  //   - Transfer fails when sender has insufficient balance
-  //   - Approve and transferFrom work correctly
-  //   - Minting increases total supply (if your token has a mint function)
-  //
-  // Example structure:
-  //
-  // describe("Token transfers", function () {
-  //   it("should transfer tokens between accounts", async function () {
-  //     await contract.transfer(addr1.address, 100);
-  //     expect(await contract.balanceOf(addr1.address)).to.equal(100);
-  //   });
-  //
-  //   it("should fail if sender does not have enough tokens", async function () {
-  //     await expect(
-  //       contract.connect(addr1).transfer(addr2.address, 1)
-  //     ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
-  //   });
-  // });
+  it("should accept token payments with allowance", async function () {
+    const paymentAmount = ethers.parseUnits("100", 6);
+    await token.transfer(addr1.address, paymentAmount);
+    await token.connect(addr1).approve(await bridge.getAddress(), paymentAmount);
+
+    await expect(bridge.connect(addr1).payWithToken(paymentAmount, "invoice-001"))
+      .to.emit(bridge, "TokenPayment")
+      .withArgs(addr1.address, paymentAmount, "invoice-001", await ethers.provider.getBlock("latest").then(b => b.timestamp));
+
+    expect(await token.balanceOf(await bridge.getAddress())).to.equal(paymentAmount);
+  });
+
+  it("should record M-Pesa payments only by owner", async function () {
+    await expect(bridge.recordMpesaPayment("+254712345678", ethers.parseUnits("500", 6), "mpesa-ref-001"))
+      .to.emit(bridge, "MpesaPaymentRecorded")
+      .withArgs(owner.address, "+254712345678", ethers.parseUnits("500", 6), "mpesa-ref-001", await ethers.provider.getBlock("latest").then(b => b.timestamp));
+
+    expect(await bridge.mpesaCount()).to.equal(1);
+    const payment = await bridge.mpesaPayments(0);
+    expect(payment.phone).to.equal("+254712345678");
+    expect(payment.reference).to.equal("mpesa-ref-001");
+  });
+
+  it("should reject duplicate M-Pesa references", async function () {
+    await bridge.recordMpesaPayment("+254712345678", ethers.parseUnits("200", 6), "mpesa-ref-002");
+
+    await expect(
+      bridge.recordMpesaPayment("+254712345678", ethers.parseUnits("200", 6), "mpesa-ref-002")
+    ).to.be.revertedWith("PaymentBridge: reference already used");
+  });
+
+  it("should allow owner to withdraw tokens", async function () {
+    const paymentAmount = ethers.parseUnits("150", 6);
+    await token.transfer(addr1.address, paymentAmount);
+    await token.connect(addr1).approve(await bridge.getAddress(), paymentAmount);
+    await bridge.connect(addr1).payWithToken(paymentAmount, "invoice-002");
+
+    await bridge.withdrawTokens(addr2.address, paymentAmount);
+    expect(await token.balanceOf(addr2.address)).to.equal(paymentAmount);
+  });
 });
