@@ -184,3 +184,619 @@ button:last-of-type,
   color: #86efac;
   border-color: rgba(52, 211, 153, 0.25);
 }
+
+/* ==========================================================================
+   Kenya Hidden Champions Discovery Engine (KHC-DE) Premium Styles
+   ========================================================================== */
+
+/* Main layout container override to support wider dashboard views */
+.page.wide {
+  align-items: stretch;
+  padding: 1.5rem;
+}
+
+.page.wide .panel {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+/* Top App Switcher Navigation Bar */
+.app-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  overflow-x: auto;
+}
+
+.app-nav button {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.app-nav button:hover:not([disabled]) {
+  color: #f1f5f9;
+  background: rgba(148, 163, 184, 0.08);
+  transform: none;
+}
+
+.app-nav button.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Sub-tab Navigation (Inside KHC Engine) */
+.sub-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.25rem;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 14px;
+  overflow-x: auto;
+}
+
+.sub-nav button {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.sub-nav button:hover:not([disabled]) {
+  color: #cbd5e1;
+  background: rgba(148, 163, 184, 0.05);
+  transform: none;
+}
+
+.sub-nav button.active {
+  color: #ffffff;
+  background: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+/* Dashboard KPI metrics grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.kpi-card:hover {
+  border-color: rgba(56, 189, 248, 0.2);
+  background: rgba(15, 23, 42, 0.8);
+  transform: translateY(-2px);
+}
+
+.kpi-card h3 {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.kpi-card .kpi-val {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 0.5rem 0 0.25rem;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kpi-card .kpi-val.cyan {
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+}
+.kpi-card .kpi-val.amber {
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  -webkit-background-clip: text;
+}
+.kpi-card .kpi-val.emerald {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  -webkit-background-clip: text;
+}
+.kpi-card .kpi-val.purple {
+  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+}
+
+.kpi-card p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* Data grid / directory table */
+.table-container {
+  overflow-x: auto;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.4);
+  margin-bottom: 1.5rem;
+}
+
+.khc-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.khc-table th {
+  background: rgba(15, 23, 42, 0.8);
+  padding: 1rem;
+  font-weight: 600;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.khc-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+  color: #e2e8f0;
+  vertical-align: middle;
+}
+
+.khc-table tr:hover td {
+  background: rgba(148, 163, 184, 0.03);
+}
+
+.khc-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Badges for Classification / Statuses */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-exceptional {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.badge-hidden-champion {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-emerging-champion {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.badge-watchlist {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.badge-reject {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.badge-validated {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.badge-raw {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+.badge-processed {
+  background: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+}
+
+/* Double column dashboard section layout */
+.dual-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .dual-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Scraper input panel & console */
+.scraper-panel {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.console-output {
+  font-family: 'Courier New', Courier, monospace;
+  background: #020617;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  height: 220px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  color: #4ade80;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.console-line {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.console-line.info {
+  color: #94a3b8;
+}
+
+.console-line.success {
+  color: #4ade80;
+}
+
+.console-line.warn {
+  color: #fbbf24;
+}
+
+/* Duplicate detection display */
+.dup-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 18px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.dup-records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.dup-record-option {
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.dup-record-option:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.dup-record-option.selected {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.dup-record-option input[type="radio"] {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: auto;
+  cursor: pointer;
+}
+
+/* Validation checklists styling */
+.validation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.validation-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.checklist-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.05);
+}
+
+.checklist-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.checklist-item input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.validation-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.validation-actions button {
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+}
+
+.validation-actions button.approve {
+  background: #059669;
+  color: #ffffff;
+}
+
+.validation-actions button.reject {
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+/* Outreach CRM Kanban board */
+.crm-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  min-height: 500px;
+  align-items: flex-start;
+}
+
+.crm-lane {
+  flex: 0 0 280px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.crm-lane-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.crm-lane-header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.crm-lane-count {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.crm-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.crm-card:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
+}
+
+.crm-card h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #f8fafc;
+}
+
+.crm-card p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* Modals / Profile View overlays */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(2, 6, 17, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modal-content {
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 24px;
+  width: min(800px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.modal-close {
+  background: transparent !important;
+  color: #94a3b8 !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #ffffff !important;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  color: #e2e8f0;
+}
+
+/* Markdown rendering styling inside profiles modal */
+.markdown-doc {
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.markdown-doc h1,
+.markdown-doc h2,
+.markdown-doc h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.markdown-doc h1 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  padding-bottom: 0.5rem;
+}
+
+.markdown-doc h2 {
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  padding-bottom: 0.25rem;
+}
+
+.markdown-doc ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-doc li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-doc p {
+  margin-bottom: 1rem;
+}
+
+.markdown-doc hr {
+  border: 0;
+  height: 1px;
+  background: rgba(148, 163, 184, 0.1);
+  margin: 1.5rem 0;
+}
+
+.crm-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+

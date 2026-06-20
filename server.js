@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
+const khcRouter = require('./server/routes/khc');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,6 +10,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
 app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
+app.use('/api/khc', khcRouter);
 
 const mpesaCallbacks = [];
 
